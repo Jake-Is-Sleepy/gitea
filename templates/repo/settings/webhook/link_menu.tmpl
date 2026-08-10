@@ -47,4 +47,8 @@
 		{{template "shared/webhook/icon" (dict "HookType" "packagist" "Size" $size)}}
 		{{ctx.Locale.Tr "repo.settings.web_hook_name_packagist"}}
 	</a>
+	<a class="item" href="{{.BaseLinkNew}}/fluxer/new">
+		{{template "shared/webhook/icon" (dict "HookType" "fluxer" "Size" $size)}}
+		{{ctx.Locale.Tr "repo.settings.web_hook_name_fluxer"}}
+	</a>
 </div>

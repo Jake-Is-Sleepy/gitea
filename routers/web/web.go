@@ -469,6 +469,7 @@ func registerWebRoutes(m *web.Router, webAuth *AuthMiddleware) {
 		m.Post("/feishu/new", web.Bind(forms.NewFeishuHookForm{}), repo_setting.FeishuHooksNewPost)
 		m.Post("/wechatwork/new", web.Bind(forms.NewWechatWorkHookForm{}), repo_setting.WechatworkHooksNewPost)
 		m.Post("/packagist/new", web.Bind(forms.NewPackagistHookForm{}), repo_setting.PackagistHooksNewPost)
+		m.Post("/fluxer/new", web.Bind(forms.NewFluxerHookForm{}), repo_setting.FluxerHooksNewPost)
 	}
 
 	addWebhookEditRoutes := func() {
@@ -483,6 +484,7 @@ func registerWebRoutes(m *web.Router, webAuth *AuthMiddleware) {
 		m.Post("/feishu/{id}", web.Bind(forms.NewFeishuHookForm{}), repo_setting.FeishuHooksEditPost)
 		m.Post("/wechatwork/{id}", web.Bind(forms.NewWechatWorkHookForm{}), repo_setting.WechatworkHooksEditPost)
 		m.Post("/packagist/{id}", web.Bind(forms.NewPackagistHookForm{}), repo_setting.PackagistHooksEditPost)
+		m.Post("/fluxer/{id}", web.Bind(forms.NewFluxerHookForm{}), repo_setting.FluxerHooksEditPost)
 	}
 
 	addSettingsVariablesRoutes := func() {

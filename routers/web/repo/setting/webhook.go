@@ -393,6 +393,31 @@ func discordHookParams(ctx *context.Context) webhookParams {
 	}
 }
 
+// FluxerHooksNewPost response for creating Fluxer webhook
+func FluxerHooksNewPost(ctx *context.Context) {
+	createWebhook(ctx, fluxerHookParams(ctx))
+}
+
+// FluxerHooksEditPost response for editing Fluxer webhook
+func FluxerHooksEditPost(ctx *context.Context) {
+	editWebhook(ctx, fluxerHookParams(ctx))
+}
+
+func fluxerHookParams(ctx *context.Context) webhookParams {
+	form := web.GetForm[*forms.NewFluxerHookForm](ctx)
+
+	return webhookParams{
+		Type:        webhook_module.FLUXER,
+		URL:         form.PayloadURL,
+		ContentType: webhook.ContentTypeJSON,
+		WebhookForm: form.WebhookForm,
+		Meta: &webhook_service.FluxerMeta{
+			Username: form.Username,
+			IconURL:  form.IconURL,
+		},
+	}
+}
+
 // DingtalkHooksNewPost response for creating Dingtalk webhook
 func DingtalkHooksNewPost(ctx *context.Context) {
 	createWebhook(ctx, dingtalkHookParams(ctx))
@@ -630,6 +655,8 @@ func checkWebhook(ctx *context.Context) (*ownerRepoCtx, *webhook.Webhook) {
 		ctx.Data["MatrixHook"] = webhook_service.GetMatrixHook(w)
 	case webhook_module.PACKAGIST:
 		ctx.Data["PackagistHook"] = webhook_service.GetPackagistHook(w)
+	case webhook_module.FLUXER:
+		ctx.Data["DiscordHook"] = webhook_service.GetFluxerHook(w)
 	}
 
 	ctx.Data["History"], err = w.History(ctx, 1)

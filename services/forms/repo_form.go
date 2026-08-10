@@ -317,6 +317,20 @@ func (f *NewDiscordHookForm) Validate(req *http.Request, errs binding.Errors) bi
 	return middleware.Validate(ctx, errs, f)
 }
 
+// NewFluxerHookForm form for creating fluxer hook
+type NewFluxerHookForm struct {
+	PayloadURL string `binding:"Required;ValidUrl"`
+	Username   string
+	IconURL    string
+	WebhookForm
+}
+
+// Validate validates the fields
+func (f *NewFluxerHookForm) Validate(req *http.Request, errs binding.Errors) binding.Errors {
+	ctx := context.GetValidateContext(req)
+	return middleware.Validate(ctx, errs, f)
+}
+
 // NewDingtalkHookForm form for creating dingtalk hook
 type NewDingtalkHookForm struct {
 	PayloadURL string `binding:"Required;ValidUrl"`

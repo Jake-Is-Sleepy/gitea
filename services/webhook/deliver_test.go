@@ -290,6 +290,7 @@ func TestWebhookDeliverSpecificTypes(t *testing.T) {
 		webhook_module.MATRIX:     {httpMethod: "PUT"},
 		webhook_module.WECHATWORK: {},
 		webhook_module.PACKAGIST:  {},
+		webhook_module.FLUXER:     {},
 	}
 
 	s := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
