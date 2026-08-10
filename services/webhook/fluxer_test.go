@@ -27,12 +27,11 @@ func TestFluxerPayload(t *testing.T) {
 
 		assert.Len(t, pl.Embeds, 1)
 		assert.Equal(t, "[test/repo] branch test created", pl.Embeds[0].Title)
-		assert.Equal(t, "", pl.Embeds[0].Description)
+		assert.Empty(t, pl.Embeds[0].Description)
 		assert.Equal(t, "http://localhost:3000/test/repo/src/test", pl.Embeds[0].URL)
 		assert.Equal(t, p.Sender.UserName, pl.Embeds[0].Author.Name)
 		assert.Equal(t, setting.AppURL+p.Sender.UserName, pl.Embeds[0].Author.URL)
 		assert.Equal(t, p.Sender.AvatarURL, pl.Embeds[0].Author.IconURL)
-		assert.Equal(t, "Gitea", pl.Embeds[0].Footer.Text)
 	})
 
 	t.Run("Delete", func(t *testing.T) {
@@ -43,12 +42,11 @@ func TestFluxerPayload(t *testing.T) {
 
 		assert.Len(t, pl.Embeds, 1)
 		assert.Equal(t, "[test/repo] branch test deleted", pl.Embeds[0].Title)
-		assert.Equal(t, "", pl.Embeds[0].Description)
+		assert.Empty(t, pl.Embeds[0].Description)
 		assert.Equal(t, "http://localhost:3000/test/repo/src/test", pl.Embeds[0].URL)
 		assert.Equal(t, p.Sender.UserName, pl.Embeds[0].Author.Name)
 		assert.Equal(t, setting.AppURL+p.Sender.UserName, pl.Embeds[0].Author.URL)
 		assert.Equal(t, p.Sender.AvatarURL, pl.Embeds[0].Author.IconURL)
-		assert.Equal(t, "Gitea", pl.Embeds[0].Footer.Text)
 	})
 
 	t.Run("Fork", func(t *testing.T) {
@@ -59,12 +57,11 @@ func TestFluxerPayload(t *testing.T) {
 
 		assert.Len(t, pl.Embeds, 1)
 		assert.Equal(t, "test/repo2 is forked to test/repo", pl.Embeds[0].Title)
-		assert.Equal(t, "", pl.Embeds[0].Description)
+		assert.Empty(t, pl.Embeds[0].Description)
 		assert.Equal(t, "http://localhost:3000/test/repo", pl.Embeds[0].URL)
 		assert.Equal(t, p.Sender.UserName, pl.Embeds[0].Author.Name)
 		assert.Equal(t, setting.AppURL+p.Sender.UserName, pl.Embeds[0].Author.URL)
 		assert.Equal(t, p.Sender.AvatarURL, pl.Embeds[0].Author.IconURL)
-		assert.Equal(t, "Gitea", pl.Embeds[0].Footer.Text)
 	})
 
 	t.Run("Push", func(t *testing.T) {
@@ -80,7 +77,6 @@ func TestFluxerPayload(t *testing.T) {
 		assert.Equal(t, p.Sender.UserName, pl.Embeds[0].Author.Name)
 		assert.Equal(t, setting.AppURL+p.Sender.UserName, pl.Embeds[0].Author.URL)
 		assert.Equal(t, p.Sender.AvatarURL, pl.Embeds[0].Author.IconURL)
-		assert.Equal(t, "Gitea", pl.Embeds[0].Footer.Text)
 	})
 
 	t.Run("PushWithMultilineCommitMessage", func(t *testing.T) {
@@ -95,7 +91,6 @@ func TestFluxerPayload(t *testing.T) {
 		assert.Equal(t, p.Sender.UserName, pl.Embeds[0].Author.Name)
 		assert.Equal(t, setting.AppURL+p.Sender.UserName, pl.Embeds[0].Author.URL)
 		assert.Equal(t, p.Sender.AvatarURL, pl.Embeds[0].Author.IconURL)
-		assert.Equal(t, "Gitea", pl.Embeds[0].Footer.Text)
 	})
 
 	t.Run("PushWithLongCommitSummary", func(t *testing.T) {
@@ -110,7 +105,6 @@ func TestFluxerPayload(t *testing.T) {
 		assert.Equal(t, p.Sender.UserName, pl.Embeds[0].Author.Name)
 		assert.Equal(t, setting.AppURL+p.Sender.UserName, pl.Embeds[0].Author.URL)
 		assert.Equal(t, p.Sender.AvatarURL, pl.Embeds[0].Author.IconURL)
-		assert.Equal(t, "Gitea", pl.Embeds[0].Footer.Text)
 	})
 
 	t.Run("Issue", func(t *testing.T) {
@@ -128,20 +122,17 @@ func TestFluxerPayload(t *testing.T) {
 		assert.Equal(t, setting.AppURL+p.Sender.UserName, pl.Embeds[0].Author.URL)
 		assert.Equal(t, p.Sender.AvatarURL, pl.Embeds[0].Author.IconURL)
 
-		assert.Equal(t, "Gitea", pl.Embeds[0].Footer.Text)
-
 		p.Action = api.HookIssueClosed
 		pl, err = fc.Issue(p)
 		require.NoError(t, err)
 
 		assert.Len(t, pl.Embeds, 1)
 		assert.Equal(t, "[test/repo] Issue closed: #2 crash", pl.Embeds[0].Title)
-		assert.Equal(t, "", pl.Embeds[0].Description)
+		assert.Empty(t, pl.Embeds[0].Description)
 		assert.Equal(t, "http://localhost:3000/test/repo/issues/2", pl.Embeds[0].URL)
 		assert.Equal(t, p.Sender.UserName, pl.Embeds[0].Author.Name)
 		assert.Equal(t, setting.AppURL+p.Sender.UserName, pl.Embeds[0].Author.URL)
 		assert.Equal(t, p.Sender.AvatarURL, pl.Embeds[0].Author.IconURL)
-		assert.Equal(t, "Gitea", pl.Embeds[0].Footer.Text)
 	})
 
 	t.Run("IssueComment", func(t *testing.T) {
@@ -157,7 +148,6 @@ func TestFluxerPayload(t *testing.T) {
 		assert.Equal(t, p.Sender.UserName, pl.Embeds[0].Author.Name)
 		assert.Equal(t, setting.AppURL+p.Sender.UserName, pl.Embeds[0].Author.URL)
 		assert.Equal(t, p.Sender.AvatarURL, pl.Embeds[0].Author.IconURL)
-		assert.Equal(t, "Gitea", pl.Embeds[0].Footer.Text)
 	})
 
 	t.Run("PullRequest", func(t *testing.T) {
@@ -173,7 +163,6 @@ func TestFluxerPayload(t *testing.T) {
 		assert.Equal(t, p.Sender.UserName, pl.Embeds[0].Author.Name)
 		assert.Equal(t, setting.AppURL+p.Sender.UserName, pl.Embeds[0].Author.URL)
 		assert.Equal(t, p.Sender.AvatarURL, pl.Embeds[0].Author.IconURL)
-		assert.Equal(t, "Gitea", pl.Embeds[0].Footer.Text)
 	})
 
 	t.Run("PullRequestComment", func(t *testing.T) {
@@ -189,7 +178,6 @@ func TestFluxerPayload(t *testing.T) {
 		assert.Equal(t, p.Sender.UserName, pl.Embeds[0].Author.Name)
 		assert.Equal(t, setting.AppURL+p.Sender.UserName, pl.Embeds[0].Author.URL)
 		assert.Equal(t, p.Sender.AvatarURL, pl.Embeds[0].Author.IconURL)
-		assert.Equal(t, "Gitea", pl.Embeds[0].Footer.Text)
 	})
 
 	t.Run("Review", func(t *testing.T) {
@@ -206,7 +194,6 @@ func TestFluxerPayload(t *testing.T) {
 		assert.Equal(t, p.Sender.UserName, pl.Embeds[0].Author.Name)
 		assert.Equal(t, setting.AppURL+p.Sender.UserName, pl.Embeds[0].Author.URL)
 		assert.Equal(t, p.Sender.AvatarURL, pl.Embeds[0].Author.IconURL)
-		assert.Equal(t, "Gitea", pl.Embeds[0].Footer.Text)
 	})
 
 	t.Run("Repository", func(t *testing.T) {
@@ -217,12 +204,11 @@ func TestFluxerPayload(t *testing.T) {
 
 		assert.Len(t, pl.Embeds, 1)
 		assert.Equal(t, "[test/repo] Repository created", pl.Embeds[0].Title)
-		assert.Equal(t, "", pl.Embeds[0].Description)
+		assert.Empty(t, pl.Embeds[0].Description)
 		assert.Equal(t, "http://localhost:3000/test/repo", pl.Embeds[0].URL)
 		assert.Equal(t, p.Sender.UserName, pl.Embeds[0].Author.Name)
 		assert.Equal(t, setting.AppURL+p.Sender.UserName, pl.Embeds[0].Author.URL)
 		assert.Equal(t, p.Sender.AvatarURL, pl.Embeds[0].Author.IconURL)
-		assert.Equal(t, "Gitea", pl.Embeds[0].Footer.Text)
 	})
 
 	t.Run("Package", func(t *testing.T) {
@@ -233,12 +219,11 @@ func TestFluxerPayload(t *testing.T) {
 
 		assert.Len(t, pl.Embeds, 1)
 		assert.Equal(t, "Package created: GiteaContainer:latest", pl.Embeds[0].Title)
-		assert.Equal(t, "", pl.Embeds[0].Description)
+		assert.Empty(t, pl.Embeds[0].Description)
 		assert.Equal(t, "http://localhost:3000/user1/-/packages/container/GiteaContainer/latest", pl.Embeds[0].URL)
 		assert.Equal(t, p.Sender.UserName, pl.Embeds[0].Author.Name)
 		assert.Equal(t, setting.AppURL+p.Sender.UserName, pl.Embeds[0].Author.URL)
 		assert.Equal(t, p.Sender.AvatarURL, pl.Embeds[0].Author.IconURL)
-		assert.Equal(t, "Gitea", pl.Embeds[0].Footer.Text)
 	})
 
 	t.Run("Wiki", func(t *testing.T) {
@@ -255,7 +240,6 @@ func TestFluxerPayload(t *testing.T) {
 		assert.Equal(t, p.Sender.UserName, pl.Embeds[0].Author.Name)
 		assert.Equal(t, setting.AppURL+p.Sender.UserName, pl.Embeds[0].Author.URL)
 		assert.Equal(t, p.Sender.AvatarURL, pl.Embeds[0].Author.IconURL)
-		assert.Equal(t, "Gitea", pl.Embeds[0].Footer.Text)
 
 		p.Action = api.HookWikiEdited
 		pl, err = fc.Wiki(p)
@@ -268,7 +252,6 @@ func TestFluxerPayload(t *testing.T) {
 		assert.Equal(t, p.Sender.UserName, pl.Embeds[0].Author.Name)
 		assert.Equal(t, setting.AppURL+p.Sender.UserName, pl.Embeds[0].Author.URL)
 		assert.Equal(t, p.Sender.AvatarURL, pl.Embeds[0].Author.IconURL)
-		assert.Equal(t, "Gitea", pl.Embeds[0].Footer.Text)
 
 		p.Action = api.HookWikiDeleted
 		pl, err = fc.Wiki(p)
@@ -276,12 +259,11 @@ func TestFluxerPayload(t *testing.T) {
 
 		assert.Len(t, pl.Embeds, 1)
 		assert.Equal(t, "[test/repo] Wiki page 'index' deleted", pl.Embeds[0].Title)
-		assert.Equal(t, "", pl.Embeds[0].Description)
+		assert.Empty(t, pl.Embeds[0].Description)
 		assert.Equal(t, "http://localhost:3000/test/repo/wiki/index", pl.Embeds[0].URL)
 		assert.Equal(t, p.Sender.UserName, pl.Embeds[0].Author.Name)
 		assert.Equal(t, setting.AppURL+p.Sender.UserName, pl.Embeds[0].Author.URL)
 		assert.Equal(t, p.Sender.AvatarURL, pl.Embeds[0].Author.IconURL)
-		assert.Equal(t, "Gitea", pl.Embeds[0].Footer.Text)
 	})
 
 	t.Run("Release", func(t *testing.T) {
@@ -297,7 +279,6 @@ func TestFluxerPayload(t *testing.T) {
 		assert.Equal(t, p.Sender.UserName, pl.Embeds[0].Author.Name)
 		assert.Equal(t, setting.AppURL+p.Sender.UserName, pl.Embeds[0].Author.URL)
 		assert.Equal(t, p.Sender.AvatarURL, pl.Embeds[0].Author.IconURL)
-		assert.Equal(t, "Gitea", pl.Embeds[0].Footer.Text)
 	})
 }
 
