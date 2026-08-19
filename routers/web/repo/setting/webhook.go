@@ -656,7 +656,7 @@ func checkWebhook(ctx *context.Context) (*ownerRepoCtx, *webhook.Webhook) {
 	case webhook_module.PACKAGIST:
 		ctx.Data["PackagistHook"] = webhook_service.GetPackagistHook(w)
 	case webhook_module.FLUXER:
-		ctx.Data["DiscordHook"] = webhook_service.GetFluxerHook(w)
+		ctx.Data["FluxerHook"] = webhook_service.GetFluxerHook(w)
 	}
 
 	ctx.Data["History"], err = w.History(ctx, 1)
